@@ -11,7 +11,7 @@ import AVFoundation
 
 @objc(Mediapipe)
 class Mediapipe: NSObject {
-  
+  private let markEachFrame = MarkEachFrame()
   
   private func createModel() -> PoseLandmarker? {
     guard let modelPath = Bundle.main.path(forResource: "pose_landmarker_heavy", ofType: "task") else {
@@ -35,15 +35,6 @@ class Mediapipe: NSObject {
       print("モデル作成中にエラーが発生しました: \(error)")
       return nil
     }
-  }
-  
-  private func imageGenerator(with videoAsset: AVAsset) -> AVAssetImageGenerator{
-    let generator = AVAssetImageGenerator(asset: videoAsset)
-    generator.requestedTimeToleranceBefore = CMTimeMake(value: 1, timescale: 25)
-    generator.requestedTimeToleranceAfter = CMTimeMake(value: 1, timescale: 25)
-    generator.appliesPreferredTrackTransform = true
-
-    return generator
   }
   
   //ポーズ推定
@@ -82,6 +73,7 @@ class Mediapipe: NSObject {
     imageGenerator.requestedTimeToleranceAfter = tolerance
     
     var results = [PoseLandmarkerResult]()
+    var imageData: [Data] = []
 
     // 各フレームのタイムスタンプを作成する
     var times = [NSValue]()
@@ -105,6 +97,17 @@ class Mediapipe: NSObject {
         let result = try poseLandmarkerModel.detect(videoFrame: MPImage(uiImage: uiImage), timestampInMilliseconds: timeStamp)
         
         results.append(result)
+        
+        //描画
+        guard let drawUIImage = markEachFrame.draw(image: image, resultLandmark: result.landmarks) else {
+          completion(.failure(NSError(domain: "Image Error", code: -1, userInfo: nil)))
+          return
+        }
+        
+        if let drawImageData = drawUIImage.jpegData(compressionQuality: 1.0) {
+          imageData.append(drawImageData)
+        }
+        
       } catch {
         completion(.failure(NSError(domain: "Failed to Detection", code: -1, userInfo: nil)))
         return
@@ -112,7 +115,6 @@ class Mediapipe: NSObject {
     }
     
     completion(.success(results))
-    
   }
   
   
