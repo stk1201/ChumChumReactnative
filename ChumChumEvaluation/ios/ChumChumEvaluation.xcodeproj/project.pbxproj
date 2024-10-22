@@ -8,12 +8,15 @@
 
 /* Begin PBXBuildFile section */
 		00E356F31AD99517003FC87E /* ChumChumEvaluationTests.m in Sources */ = {isa = PBXBuildFile; fileRef = 00E356F21AD99517003FC87E /* ChumChumEvaluationTests.m */; };
-		0C80B921A6F3F58F76C31292 /* libPods-ChumChumEvaluation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 5DCACB8F33CDC322A6C60F78 /* libPods-ChumChumEvaluation.a */; };
 		13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB01A68108700A75B9A /* AppDelegate.mm */; };
 		13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = 13B07FB51A68108700A75B9A /* Images.xcassets */; };
 		13B07FC11A68108700A75B9A /* main.m in Sources */ = {isa = PBXBuildFile; fileRef = 13B07FB71A68108700A75B9A /* main.m */; };
 		4371B1B1B41BACE8EC737CDF /* PrivacyInfo.xcprivacy in Resources */ = {isa = PBXBuildFile; fileRef = D3653D4B61D8236746ADFDAD /* PrivacyInfo.xcprivacy */; };
-		7699B88040F8A987B510C191 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 19F6CBCC0A4E27FBF8BF4A61 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a */; };
+		467588EE2CC388F1000D0CD3 /* Mediapipe.swift in Sources */ = {isa = PBXBuildFile; fileRef = 467588ED2CC388F1000D0CD3 /* Mediapipe.swift */; };
+		46AB8F0B2CC389C700FA8FE7 /* Mediapipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AB8F0A2CC389C700FA8FE7 /* Mediapipe.m */; };
+		46AB8F0D2CC3C70300FA8FE7 /* pose_landmarker_heavy.task in Resources */ = {isa = PBXBuildFile; fileRef = 46AB8F0C2CC3C70300FA8FE7 /* pose_landmarker_heavy.task */; };
+		54B8DF3FE8B2347E8106CD08 /* libPods-ChumChumEvaluation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0572D090F6BF3C3C2C564E2F /* libPods-ChumChumEvaluation.a */; };
+		584880B8CA6EDCEB5F93FFE1 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B120A4CBD199D7CEE0FC9B95 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
 /* End PBXBuildFile section */
 
@@ -31,6 +34,7 @@
 		00E356EE1AD99517003FC87E /* ChumChumEvaluationTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = ChumChumEvaluationTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		00E356F11AD99517003FC87E /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
 		00E356F21AD99517003FC87E /* ChumChumEvaluationTests.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = ChumChumEvaluationTests.m; sourceTree = "<group>"; };
+		0572D090F6BF3C3C2C564E2F /* libPods-ChumChumEvaluation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChumChumEvaluation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07F961A680F5B00A75B9A /* ChumChumEvaluation.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = ChumChumEvaluation.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		13B07FAF1A68108700A75B9A /* AppDelegate.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = AppDelegate.h; path = ChumChumEvaluation/AppDelegate.h; sourceTree = "<group>"; };
 		13B07FB01A68108700A75B9A /* AppDelegate.mm */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.cpp.objcpp; name = AppDelegate.mm; path = ChumChumEvaluation/AppDelegate.mm; sourceTree = "<group>"; };
@@ -38,14 +42,17 @@
 		13B07FB61A68108700A75B9A /* Info.plist */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = Info.plist; path = ChumChumEvaluation/Info.plist; sourceTree = "<group>"; };
 		13B07FB71A68108700A75B9A /* main.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = main.m; path = ChumChumEvaluation/main.m; sourceTree = "<group>"; };
 		13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = text.plist.xml; name = PrivacyInfo.xcprivacy; path = ChumChumEvaluation/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
-		19F6CBCC0A4E27FBF8BF4A61 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChumChumEvaluation-ChumChumEvaluationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		3B4392A12AC88292D35C810B /* Pods-ChumChumEvaluation.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChumChumEvaluation.debug.xcconfig"; path = "Target Support Files/Pods-ChumChumEvaluation/Pods-ChumChumEvaluation.debug.xcconfig"; sourceTree = "<group>"; };
+		467588EC2CC388F1000D0CD3 /* ChumChumEvaluation-Bridging-Header.h */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.h; path = "ChumChumEvaluation-Bridging-Header.h"; sourceTree = "<group>"; };
+		467588ED2CC388F1000D0CD3 /* Mediapipe.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Mediapipe.swift; sourceTree = "<group>"; };
+		46AB8F0A2CC389C700FA8FE7 /* Mediapipe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Mediapipe.m; sourceTree = "<group>"; };
+		46AB8F0C2CC3C70300FA8FE7 /* pose_landmarker_heavy.task */ = {isa = PBXFileReference; lastKnownFileType = file; path = pose_landmarker_heavy.task; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-ChumChumEvaluation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChumChumEvaluation.release.xcconfig"; path = "Target Support Files/Pods-ChumChumEvaluation/Pods-ChumChumEvaluation.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ChumChumEvaluation-ChumChumEvaluationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChumChumEvaluation-ChumChumEvaluationTests.debug.xcconfig"; path = "Target Support Files/Pods-ChumChumEvaluation-ChumChumEvaluationTests/Pods-ChumChumEvaluation-ChumChumEvaluationTests.debug.xcconfig"; sourceTree = "<group>"; };
-		5DCACB8F33CDC322A6C60F78 /* libPods-ChumChumEvaluation.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChumChumEvaluation.a"; sourceTree = BUILT_PRODUCTS_DIR; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ChumChumEvaluation/LaunchScreen.storyboard; sourceTree = "<group>"; };
 		89C6BE57DB24E9ADA2F236DE /* Pods-ChumChumEvaluation-ChumChumEvaluationTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChumChumEvaluation-ChumChumEvaluationTests.release.xcconfig"; path = "Target Support Files/Pods-ChumChumEvaluation-ChumChumEvaluationTests/Pods-ChumChumEvaluation-ChumChumEvaluationTests.release.xcconfig"; sourceTree = "<group>"; };
-		D3653D4B61D8236746ADFDAD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; name = PrivacyInfo.xcprivacy; path = ChumChumEvaluation/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
+		B120A4CBD199D7CEE0FC9B95 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = "libPods-ChumChumEvaluation-ChumChumEvaluationTests.a"; sourceTree = BUILT_PRODUCTS_DIR; };
+		D3653D4B61D8236746ADFDAD /* PrivacyInfo.xcprivacy */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xml; name = PrivacyInfo.xcprivacy; path = ChumChumEvaluation/PrivacyInfo.xcprivacy; sourceTree = "<group>"; };
 		ED297162215061F000B7C4FE /* JavaScriptCore.framework */ = {isa = PBXFileReference; lastKnownFileType = wrapper.framework; name = JavaScriptCore.framework; path = System/Library/Frameworks/JavaScriptCore.framework; sourceTree = SDKROOT; };
 /* End PBXFileReference section */
 
@@ -54,7 +61,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				7699B88040F8A987B510C191 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a in Frameworks */,
+				584880B8CA6EDCEB5F93FFE1 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -62,7 +69,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
-				0C80B921A6F3F58F76C31292 /* libPods-ChumChumEvaluation.a in Frameworks */,
+				54B8DF3FE8B2347E8106CD08 /* libPods-ChumChumEvaluation.a in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -89,14 +96,18 @@
 		13B07FAE1A68108700A75B9A /* ChumChumEvaluation */ = {
 			isa = PBXGroup;
 			children = (
+				46AB8F0C2CC3C70300FA8FE7 /* pose_landmarker_heavy.task */,
 				13B07FAF1A68108700A75B9A /* AppDelegate.h */,
 				13B07FB01A68108700A75B9A /* AppDelegate.mm */,
 				13B07FB51A68108700A75B9A /* Images.xcassets */,
+				467588ED2CC388F1000D0CD3 /* Mediapipe.swift */,
 				13B07FB61A68108700A75B9A /* Info.plist */,
 				81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */,
 				13B07FB71A68108700A75B9A /* main.m */,
 				13B07FB81A68108700A75B9A /* PrivacyInfo.xcprivacy */,
 				D3653D4B61D8236746ADFDAD /* PrivacyInfo.xcprivacy */,
+				467588EC2CC388F1000D0CD3 /* ChumChumEvaluation-Bridging-Header.h */,
+				46AB8F0A2CC389C700FA8FE7 /* Mediapipe.m */,
 			);
 			name = ChumChumEvaluation;
 			sourceTree = "<group>";
@@ -105,8 +116,8 @@
 			isa = PBXGroup;
 			children = (
 				ED297162215061F000B7C4FE /* JavaScriptCore.framework */,
-				5DCACB8F33CDC322A6C60F78 /* libPods-ChumChumEvaluation.a */,
-				19F6CBCC0A4E27FBF8BF4A61 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a */,
+				0572D090F6BF3C3C2C564E2F /* libPods-ChumChumEvaluation.a */,
+				B120A4CBD199D7CEE0FC9B95 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a */,
 			);
 			name = Frameworks;
 			sourceTree = "<group>";
@@ -211,7 +222,7 @@
 						TestTargetID = 13B07F861A680F5B00A75B9A;
 					};
 					13B07F861A680F5B00A75B9A = {
-						LastSwiftMigration = 1120;
+						LastSwiftMigration = 1600;
 					};
 				};
 			};
@@ -248,6 +259,7 @@
 			files = (
 				81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */,
 				13B07FBF1A68108700A75B9A /* Images.xcassets in Resources */,
+				46AB8F0D2CC3C70300FA8FE7 /* pose_landmarker_heavy.task in Resources */,
 				4371B1B1B41BACE8EC737CDF /* PrivacyInfo.xcprivacy in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -398,6 +410,8 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				46AB8F0B2CC389C700FA8FE7 /* Mediapipe.m in Sources */,
+				467588EE2CC388F1000D0CD3 /* Mediapipe.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
 			);
@@ -472,6 +486,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2WQS8F27Q7;
 				ENABLE_BITCODE = NO;
 				INFOPLIST_FILE = ChumChumEvaluation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
@@ -486,6 +501,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChumChumEvaluation;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChumChumEvaluation-Bridging-Header.h";
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
@@ -499,6 +515,7 @@
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				CLANG_ENABLE_MODULES = YES;
 				CURRENT_PROJECT_VERSION = 1;
+				DEVELOPMENT_TEAM = 2WQS8F27Q7;
 				INFOPLIST_FILE = ChumChumEvaluation/Info.plist;
 				LD_RUNPATH_SEARCH_PATHS = (
 					"$(inherited)",
@@ -512,6 +529,7 @@
 				);
 				PRODUCT_BUNDLE_IDENTIFIER = "org.reactjs.native.example.$(PRODUCT_NAME:rfc1034identifier)";
 				PRODUCT_NAME = ChumChumEvaluation;
+				SWIFT_OBJC_BRIDGING_HEADER = "ChumChumEvaluation-Bridging-Header.h";
 				SWIFT_VERSION = 5.0;
 				VERSIONING_SYSTEM = "apple-generic";
 			};
@@ -568,6 +586,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD = "";
 				LDPLUSPLUS = "";
@@ -645,6 +674,17 @@
 				GCC_WARN_UNINITIALIZED_AUTOS = YES_AGGRESSIVE;
 				GCC_WARN_UNUSED_FUNCTION = YES;
 				GCC_WARN_UNUSED_VARIABLE = YES;
+				HEADER_SEARCH_PATHS = (
+					"$(inherited)",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon/ReactCommon.framework/Headers/react/nativemodule/core",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/ReactCommon-Samples/ReactCommon_Samples.framework/Headers/platform/ios",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-Fabric/React_Fabric.framework/Headers/react/renderer/components/view/platform/cxx",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-NativeModulesApple/React_NativeModulesApple.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers",
+					"${PODS_CONFIGURATION_BUILD_DIR}/React-graphics/React_graphics.framework/Headers/react/renderer/graphics/platform/ios",
+				);
 				IPHONEOS_DEPLOYMENT_TARGET = 13.4;
 				LD = "";
 				LDPLUSPLUS = "";
