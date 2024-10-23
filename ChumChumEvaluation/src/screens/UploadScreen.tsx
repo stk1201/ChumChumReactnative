@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import { NativeModules, View, Text, Button, ActivityIndicator } from 'react-native';
 import { launchImageLibrary, MediaType } from 'react-native-image-picker';
-// import { useNavigation } from '@react-navigation/native';
-// import { StackNavigationProp } from '@react-navigation/stack';
-// import { RootStackParamList } from '../../App';
+import { useNavigation } from '@react-navigation/native';
+import { StackNavigationProp } from '@react-navigation/stack';
+import { RootStackParamList } from '../../App';
 
 const { Mediapipe } = NativeModules;
 
@@ -13,7 +13,7 @@ const UploadScreen: React.FC = () => {
     const [poseResults, setPoseResults] = useState(null);
     const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
-    //const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'UploadScreen'>>();
+    const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'UploadScreen'>>();
 
     const selectUserVideo = () => {
         let options = {
@@ -55,6 +55,15 @@ const UploadScreen: React.FC = () => {
         });
     };
 
+    const moveToLoadingScreen = () => {
+        if(userVideoPath && originalVideoPath) {
+            navigation.navigate('LoadingScreen',
+                { userVideoPath: userVideoPath, originalVideoPath: originalVideoPath });
+        } else {
+            setErrorMessage('動画を選択してください。');
+        }
+    };
+
     const handlePoseEstimation = async () => {
         setLoading(true); // ローディングインジケーターを表示
         try {
@@ -86,7 +95,13 @@ const UploadScreen: React.FC = () => {
                 <Text>{originalVideoPath}</Text>
                 <Button title='#REF' onPress={selectOriginalVideo} />
             </View>
-            {loading ? (
+
+            <Button title='EVALUATE' onPress={moveToLoadingScreen} />
+
+            {errorMessage && (
+                <Text style={{ color: 'red', marginTop: 20 }}>{errorMessage}</Text>
+            )}
+            {/* {loading ? (
                 <ActivityIndicator size="large" color="#0000ff" />
             ) : (
                 <Button title='EVALUATE' onPress={handlePoseEstimation} />
@@ -100,7 +115,7 @@ const UploadScreen: React.FC = () => {
                 <Text>Pose Estimation Results:</Text>
                 <Text>{JSON.stringify(poseResults, null, 2)}</Text>
                 </View>
-            )}
+            )} */}
         </View>
     );
 };

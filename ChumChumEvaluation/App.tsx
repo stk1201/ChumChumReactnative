@@ -1,5 +1,4 @@
 import React, { Component } from 'react';
-import { Text, View, Button } from 'react-native';
 
 import { NavigationContainer } from '@react-navigation/native';
 import { createNativeStackNavigator } from '@react-navigation/native-stack';
@@ -20,7 +19,7 @@ export type RootStackParamList = {
   HomeScreen: undefined;
   HistoryScreen: undefined;
   UploadScreen: undefined;
-  LoadingScreen: undefined;
+  LoadingScreen: {userVideoPath: string, originalVideoPath: string};
   Result1Screen: undefined;
   Result2Screen: undefined;
   Result3Screen: undefined;
