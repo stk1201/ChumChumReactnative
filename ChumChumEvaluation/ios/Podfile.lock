@@ -7,6 +7,9 @@ PODS:
   - hermes-engine (0.75.4):
     - hermes-engine/Pre-built (= 0.75.4)
   - hermes-engine/Pre-built (0.75.4)
+  - MediaPipeTasksCommon (0.10.16)
+  - MediaPipeTasksVision (0.10.16):
+    - MediaPipeTasksCommon (= 0.10.16)
   - RCT-Folly (2024.01.01.00):
     - boost
     - DoubleConversion
@@ -1552,6 +1555,7 @@ DEPENDENCIES:
   - fmt (from `../node_modules/react-native/third-party-podspecs/fmt.podspec`)
   - glog (from `../node_modules/react-native/third-party-podspecs/glog.podspec`)
   - hermes-engine (from `../node_modules/react-native/sdks/hermes-engine/hermes-engine.podspec`)
+  - MediaPipeTasksVision
   - RCT-Folly (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCT-Folly/Fabric (from `../node_modules/react-native/third-party-podspecs/RCT-Folly.podspec`)
   - RCTDeprecation (from `../node_modules/react-native/ReactApple/Libraries/RCTFoundation/RCTDeprecation`)
@@ -1616,6 +1620,8 @@ DEPENDENCIES:
 
 SPEC REPOS:
   trunk:
+    - MediaPipeTasksCommon
+    - MediaPipeTasksVision
     - SocketRocket
 
 EXTERNAL SOURCES:
@@ -1758,6 +1764,8 @@ SPEC CHECKSUMS:
   fmt: 4c2741a687cc09f0634a2e2c72a838b99f1ff120
   glog: 69ef571f3de08433d766d614c73a9838a06bf7eb
   hermes-engine: ea92f60f37dba025e293cbe4b4a548fd26b610a0
+  MediaPipeTasksCommon: de15cf4f393854505fff28a8566fa2e85297f0e9
+  MediaPipeTasksVision: 658206f3ddf63ccf582bb99599ec9cbde2ca31af
   RCT-Folly: 4464f4d875961fce86008d45f4ecf6cef6de0740
   RCTDeprecation: 726d24248aeab6d7180dac71a936bbca6a994ed1
   RCTRequired: a94e7febda6db0345d207e854323c37e3a31d93b
@@ -1819,6 +1827,6 @@ SPEC CHECKSUMS:
   SocketRocket: abac6f5de4d4d62d24e11868d7a2f427e0ef940d
   Yoga: 055f92ad73f8c8600a93f0e25ac0b2344c3b07e6
 
-PODFILE CHECKSUM: db49dbbaf80eb26bd9c9ee9be7b7ae2adf1c8609
+PODFILE CHECKSUM: 7887e47c569e76c43cae578c8e133dc0771bba0e
 
 COCOAPODS: 1.15.2
