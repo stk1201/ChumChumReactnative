@@ -4,14 +4,12 @@
 //
 //  Created by Satoko Fujiyoshi on 2024/10/19.
 //
-
 import Foundation
 import MediaPipeTasksVision
 import AVFoundation
 
 @objc(Mediapipe)
 class Mediapipe: NSObject {
-  private let markEachFrame = MarkEachFrame()
   
   private func createModel() -> PoseLandmarker? {
     guard let modelPath = Bundle.main.path(forResource: "pose_landmarker_heavy", ofType: "task") else {
@@ -38,7 +36,7 @@ class Mediapipe: NSObject {
   }
   
   //ポーズ推定
-  private func detect(videoPath: String, completion: @escaping (Result<[PoseLandmarkerResult], Error>) -> Void){
+  private func detect(videoPath: String, completion: @escaping (Result<([PoseLandmarkerResult], [String]), Error>) -> Void){
     // 動画パスのチェック
     if videoPath.isEmpty {
      return
@@ -73,7 +71,7 @@ class Mediapipe: NSObject {
     imageGenerator.requestedTimeToleranceAfter = tolerance
     
     var results = [PoseLandmarkerResult]()
-    var imageData: [Data] = []
+    var imageData: [String] = []
 
     // 各フレームのタイムスタンプを作成する
     var times = [NSValue]()
@@ -95,17 +93,19 @@ class Mediapipe: NSObject {
       
       do {
         let result = try poseLandmarkerModel.detect(videoFrame: MPImage(uiImage: uiImage), timestampInMilliseconds: timeStamp)
-        
         results.append(result)
         
         //描画
+        let markEachFrame = MarkEachFrame()
         guard let drawUIImage = markEachFrame.draw(image: image, resultLandmark: result.landmarks) else {
           completion(.failure(NSError(domain: "Image Error", code: -1, userInfo: nil)))
           return
         }
         
         if let drawImageData = drawUIImage.jpegData(compressionQuality: 1.0) {
-          imageData.append(drawImageData)
+          // Base64 エンコード
+          let base64String = drawImageData.base64EncodedString()
+          imageData.append(base64String)
         }
         
       } catch {
@@ -114,74 +114,62 @@ class Mediapipe: NSObject {
       }
     }
     
-    completion(.success(results))
+    completion(.success((results, imageData)))
   }
   
   
   @objc(poseEstimation:originalVideoPath:resolver:rejecter:)
   func poseEstimation(userVideoPath: String, originalVideoPath: String, resolver: @escaping RCTPromiseResolveBlock, rejecter: @escaping RCTPromiseRejectBlock) {
     var userResults = [PoseLandmarkerResult]()
+    var userImageData = [String]()
     var originalResults = [PoseLandmarkerResult]()
+    var originalImageData = [String]()
     
     let dispatchGroup = DispatchGroup()
     
     dispatchGroup.enter()
     detect(videoPath: userVideoPath) { results in
       switch results {
-        case .success(let results):
-        userResults = results
+        case .success(let (results, imageData)):
+          userResults = results
+          userImageData = imageData
         case .failure(let error):
         rejecter("PoseEstimate Result Error", "ユーザの結果が得られませんでした：\(error.localizedDescription)", error)
       }
       dispatchGroup.leave()
     }
-    
+  
     dispatchGroup.enter()
     detect(videoPath: originalVideoPath) { results in
       switch results {
-        case .success(let results):
-        originalResults = results
+        case .success(let (results, imageData)):
+          originalResults = results
+          originalImageData = imageData
         case .failure(let error):
         rejecter("PoseEstimate Result Error", "オリジナルの結果が得られませんでした：\(error.localizedDescription)", error)
       }
       dispatchGroup.leave()
     }
     dispatchGroup.notify(queue: .main) {
-      // ここで結果を返すためにJSON形式に変換
-      if !userResults.isEmpty && !originalResults.isEmpty {
-        let userJSON = userResults.map { $0.toJSON() }
-        let originalJSON = originalResults.map { $0.toJSON() }
-        
-        let combinedResults: [String: Any] = [
-          "userResults": userJSON,
-          "originalResults": originalJSON
-        ]
-        
-        resolver(combinedResults)//結果をReactNativeに返す
-      }
+      //スコアリング
+      let scoreCalculating = ScoreCalculating()
+      scoreCalculating.setPoseLandmarkerResultList(userResult: userResults, originalResult: originalResults)
+      var eachTimeResult = scoreCalculating.scoring()
+      
+      // 結果を JSON 形式にまとめる
+      let allResult: [String: Any] = [
+          "eachTimeResult": eachTimeResult,
+          "userImageData": userImageData,
+          "originalImageData": originalImageData
+      ]
+          
+      resolver(allResult)
     }
   }
   
+  
   @objc
   static func requiresMainQueueSetup() -> Bool {
-    return true
-  }
-}
-
-// `PoseLandmarkerResult`をJSON形式に変換する拡張メソッド
-extension PoseLandmarkerResult {
-  func toJSON() -> [String: Any] {
-    // landmarks を [NormalizedLandmark] 型として扱い、それぞれの座標にアクセスする
-    let landmarksArray = self.landmarks.map { landmark in
-      return [
-        "x": landmark[0].x,
-        "y": landmark[0].y,
-        "z": landmark[0].z
-      ]
-    }
-
-    return [
-      "landmarks": landmarksArray
-    ]
+      return true
   }
 }

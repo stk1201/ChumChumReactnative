@@ -112,7 +112,7 @@ class MarkEachFrame: UIView{
   
   //描画
   public func draw(image: CGImage, resultLandmark: [[NormalizedLandmark]]) -> UIImage?{
-    MarkEachFrame.clear()
+    clear()
     
     let imageSize = CGSize(width: image.width, height: image.height)
     

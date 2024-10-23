@@ -16,6 +16,7 @@
 		46AB8F0B2CC389C700FA8FE7 /* Mediapipe.m in Sources */ = {isa = PBXBuildFile; fileRef = 46AB8F0A2CC389C700FA8FE7 /* Mediapipe.m */; };
 		46AB8F0D2CC3C70300FA8FE7 /* pose_landmarker_heavy.task in Resources */ = {isa = PBXBuildFile; fileRef = 46AB8F0C2CC3C70300FA8FE7 /* pose_landmarker_heavy.task */; };
 		46EB5A2A2CC7BFF200758514 /* MarkEachFrame.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB5A292CC7BFF200758514 /* MarkEachFrame.swift */; };
+		46EB5A2C2CC8728900758514 /* ScoreCalculating.swift in Sources */ = {isa = PBXBuildFile; fileRef = 46EB5A2B2CC8728900758514 /* ScoreCalculating.swift */; };
 		54B8DF3FE8B2347E8106CD08 /* libPods-ChumChumEvaluation.a in Frameworks */ = {isa = PBXBuildFile; fileRef = 0572D090F6BF3C3C2C564E2F /* libPods-ChumChumEvaluation.a */; };
 		584880B8CA6EDCEB5F93FFE1 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a in Frameworks */ = {isa = PBXBuildFile; fileRef = B120A4CBD199D7CEE0FC9B95 /* libPods-ChumChumEvaluation-ChumChumEvaluationTests.a */; };
 		81AB9BB82411601600AC10FF /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = 81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */; };
@@ -49,6 +50,7 @@
 		46AB8F0A2CC389C700FA8FE7 /* Mediapipe.m */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.c.objc; path = Mediapipe.m; sourceTree = "<group>"; };
 		46AB8F0C2CC3C70300FA8FE7 /* pose_landmarker_heavy.task */ = {isa = PBXFileReference; lastKnownFileType = file; path = pose_landmarker_heavy.task; sourceTree = "<group>"; };
 		46EB5A292CC7BFF200758514 /* MarkEachFrame.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = MarkEachFrame.swift; sourceTree = "<group>"; };
+		46EB5A2B2CC8728900758514 /* ScoreCalculating.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ScoreCalculating.swift; sourceTree = "<group>"; };
 		5709B34CF0A7D63546082F79 /* Pods-ChumChumEvaluation.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChumChumEvaluation.release.xcconfig"; path = "Target Support Files/Pods-ChumChumEvaluation/Pods-ChumChumEvaluation.release.xcconfig"; sourceTree = "<group>"; };
 		5B7EB9410499542E8C5724F5 /* Pods-ChumChumEvaluation-ChumChumEvaluationTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-ChumChumEvaluation-ChumChumEvaluationTests.debug.xcconfig"; path = "Target Support Files/Pods-ChumChumEvaluation-ChumChumEvaluationTests/Pods-ChumChumEvaluation-ChumChumEvaluationTests.debug.xcconfig"; sourceTree = "<group>"; };
 		81AB9BB72411601600AC10FF /* LaunchScreen.storyboard */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.storyboard; name = LaunchScreen.storyboard; path = ChumChumEvaluation/LaunchScreen.storyboard; sourceTree = "<group>"; };
@@ -111,6 +113,7 @@
 				467588EC2CC388F1000D0CD3 /* ChumChumEvaluation-Bridging-Header.h */,
 				46AB8F0A2CC389C700FA8FE7 /* Mediapipe.m */,
 				46EB5A292CC7BFF200758514 /* MarkEachFrame.swift */,
+				46EB5A2B2CC8728900758514 /* ScoreCalculating.swift */,
 			);
 			name = ChumChumEvaluation;
 			sourceTree = "<group>";
@@ -415,6 +418,7 @@
 			files = (
 				46AB8F0B2CC389C700FA8FE7 /* Mediapipe.m in Sources */,
 				46EB5A2A2CC7BFF200758514 /* MarkEachFrame.swift in Sources */,
+				46EB5A2C2CC8728900758514 /* ScoreCalculating.swift in Sources */,
 				467588EE2CC388F1000D0CD3 /* Mediapipe.swift in Sources */,
 				13B07FBC1A68108700A75B9A /* AppDelegate.mm in Sources */,
 				13B07FC11A68108700A75B9A /* main.m in Sources */,
