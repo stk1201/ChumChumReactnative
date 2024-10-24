@@ -1,17 +1,13 @@
 import React, { useState } from 'react';
-import { NativeModules, View, Text, Button, ActivityIndicator } from 'react-native';
+import {View, Text, Button } from 'react-native';
 import { launchImageLibrary, MediaType } from 'react-native-image-picker';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 
-const { Mediapipe } = NativeModules;
-
 const UploadScreen: React.FC = () => {
     const [userVideoPath, setUserVideoPath] = useState<string | null>(null);
     const [originalVideoPath, setOriginalVideoPath] = useState<string | null>(null);
-    const [poseResults, setPoseResults] = useState(null);
-    const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
     const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'UploadScreen'>>();
 
@@ -64,24 +60,6 @@ const UploadScreen: React.FC = () => {
         }
     };
 
-    const handlePoseEstimation = async () => {
-        setLoading(true); // ローディングインジケーターを表示
-        try {
-            if (userVideoPath && originalVideoPath) {
-                const results = await Mediapipe.poseEstimation(userVideoPath, originalVideoPath);
-                setPoseResults(results);
-                //navigation.navigate('LoadingScreen');
-            } else {
-                setErrorMessage('Please select both videos');
-            }
-        } catch (error) {
-            console.log('Error during pose estimation: ', error);
-            setErrorMessage((error as Error).message);
-        } finally {
-            setLoading(false); // ローディングインジケーターを非表示
-        }
-    };
-
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>アップロード画面</Text>
@@ -101,21 +79,6 @@ const UploadScreen: React.FC = () => {
             {errorMessage && (
                 <Text style={{ color: 'red', marginTop: 20 }}>{errorMessage}</Text>
             )}
-            {/* {loading ? (
-                <ActivityIndicator size="large" color="#0000ff" />
-            ) : (
-                <Button title='EVALUATE' onPress={handlePoseEstimation} />
-            )}
-            {errorMessage && (
-                <Text style={{ color: 'red', marginTop: 20 }}>{errorMessage}</Text>
-            )}
-
-            {poseResults && (
-                <View>
-                <Text>Pose Estimation Results:</Text>
-                <Text>{JSON.stringify(poseResults, null, 2)}</Text>
-                </View>
-            )} */}
         </View>
     );
 };

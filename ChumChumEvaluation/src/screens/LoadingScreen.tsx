@@ -1,23 +1,49 @@
-import React, {useState} from 'react';
-import { View, Text, Button } from 'react-native';
-
+import React, {useState, useEffect} from 'react';
+import { NativeModules, View, Text, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 
+const { Mediapipe } = NativeModules;
+
 const LoadingScreen: React.FC = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'LoadingScreen'>>();
     const route = useRoute<RouteProp<RootStackParamList, "LoadingScreen">>();
+    const [userVideoPath] = useState<String>(route.params.userVideoPath);
+    const [originalVideoPath] = useState<String>(route.params.originalVideoPath);
+    const [loading, setLoading] = useState<boolean>(false)
+    const [poseResults, setPoseResults] = useState(null);
+    const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const [userVideoPath, setUserVideoPath] = useState<String>(route.params.userVideoPath);
-    const [originalVideoPath, setOriginalVideoPath] = useState<String>(route.params.originalVideoPath);
+    useEffect(() => {
+        const runPoseEstimation = async () => {
+            setLoading(true);
+            try {
+                if (userVideoPath && originalVideoPath) {
+                    const results = await Mediapipe.poseEstimation(userVideoPath, originalVideoPath);
+                    setPoseResults(results);
+                    navigation.navigate('Result1Screen', { results: results });
+                } else {
+                    setErrorMessage('動画を取得できませんでした。もう一度お試しください。');
+                }
+            } catch (error) {
+                setErrorMessage((error as Error).message);
+            } finally {
+                setLoading(false);
+            }
+        };
+
+        runPoseEstimation();
+    }, [navigation, originalVideoPath, userVideoPath]);
     
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>ローディング画面</Text>
-            <Text>ユーザ動画パス：{userVideoPath}</Text>
-            <Text>オリジナル動画パス：{originalVideoPath}</Text>
-            <Button title='RESULT' onPress={() => navigation.navigate('Result1Screen')} />
+            {loading && (
+                <ActivityIndicator size="large" color="#0000ff" />
+            )}
+            {errorMessage && (
+                <Text style={{ color: 'red', marginTop: 20 }}>{errorMessage}</Text>
+            )}
         </View>
     )
 }
