@@ -1,8 +1,9 @@
-import React, {useState, useEffect} from 'react';
+import React, {useState, useEffect, useContext} from 'react';
 import { NativeModules, View, Text, ActivityIndicator } from 'react-native';
 import { useNavigation, useRoute, RouteProp } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
+import { ResultStocker } from '../context/ResultStocker';
 
 const { Mediapipe } = NativeModules;
 
@@ -11,9 +12,9 @@ const LoadingScreen: React.FC = () => {
     const route = useRoute<RouteProp<RootStackParamList, "LoadingScreen">>();
     const [userVideoPath] = useState<String>(route.params.userVideoPath);
     const [originalVideoPath] = useState<String>(route.params.originalVideoPath);
-    const [loading, setLoading] = useState<boolean>(false)
-    const [poseResults, setPoseResults] = useState(null);
+    const [loading, setLoading] = useState<boolean>(false);
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
+    const resultStocker = useContext(ResultStocker);
 
     useEffect(() => {
         const runPoseEstimation = async () => {
@@ -21,10 +22,14 @@ const LoadingScreen: React.FC = () => {
             try {
                 if (userVideoPath && originalVideoPath) {
                     const results = await Mediapipe.poseEstimation(userVideoPath, originalVideoPath);
-                    setPoseResults(results);
-                    navigation.navigate('Result1Screen', { results: results });
+                    if (results) {
+                        if(resultStocker){
+                            resultStocker.setResult(results);
+                            navigation.navigate('Result1Screen', { results: results });
+                        }
+                    }
                 } else {
-                    setErrorMessage('動画を取得できませんでした。もう一度お試しください。');
+                    setErrorMessage('もう一度お試しください。');
                 }
             } catch (error) {
                 setErrorMessage((error as Error).message);
@@ -34,7 +39,7 @@ const LoadingScreen: React.FC = () => {
         };
 
         runPoseEstimation();
-    }, [navigation, originalVideoPath, userVideoPath]);
+    }, [navigation,resultStocker,originalVideoPath, userVideoPath]);
     
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
