@@ -154,11 +154,11 @@ class Mediapipe: NSObject {
       //スコアリング
       let scoreCalculating = ScoreCalculating()
       scoreCalculating.setPoseLandmarkerResultList(userResult: userResults, originalResult: originalResults)
-      var eachTimeResult = scoreCalculating.scoring()
+      var eachTimeScore = scoreCalculating.scoring()
       
       // 結果を JSON 形式にまとめる
       let allResult: [String: Any] = [
-          "eachTimeResult": eachTimeResult,
+          "eachTimeScore": eachTimeScore,
           "userImageData": userImageData,
           "originalImageData": originalImageData
       ]
