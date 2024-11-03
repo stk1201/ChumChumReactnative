@@ -29,6 +29,15 @@ const LoadingScreen: React.FC = () => {
                         const rank = calculateRank(totalScore);
                         // ベストショットとワーストショットを設定
                         const [userImageData, originalImageData] = setBestAndWorst(results);
+                        //グラフ作成
+                        const graphData = {
+                            labels: results.eachTimeScore.map((_, index) => (index + 1).toString()),
+                            datasets: [
+                                {
+                                    data: results.eachTimeScore,
+                                },
+                            ],
+                        };
     
                         // 結果の更新
                         await resultStocker.setResult({
@@ -37,6 +46,7 @@ const LoadingScreen: React.FC = () => {
                             userImageData,
                             originalImageData,
                             rank,
+                            graphData,
                         });
     
                         // 結果を設定した後に画面遷移

@@ -1,13 +1,19 @@
 // context/ResultContext.js
 import React, { createContext, useState, ReactNode} from 'react';
 
+interface ChartData {
+    labels: string[];
+    datasets: {
+        data: number[];
+    }[];
+}
 interface Result {
     eachTimeScore: number[];
     totalScore: number;
     userImageData: string[];
     originalImageData: string[];
     rank: string;
-
+    graphData: ChartData;
 }
 
 interface ResultContext {

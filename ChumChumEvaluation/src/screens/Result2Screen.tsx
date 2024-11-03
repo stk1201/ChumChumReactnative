@@ -26,7 +26,7 @@ const Result2Screen: React.FC = () => {
                     </View>
                 </View>
             )}
-            <Text>ワーストショット</Text>
+            <Text>伸びしろショット</Text>
             {userImageData && userImageData.length > 0 && originalImageData && originalImageData.length > 0 && (
                 <View style={styles.imageRow}>
                     <View style={styles.imageContainer}>
