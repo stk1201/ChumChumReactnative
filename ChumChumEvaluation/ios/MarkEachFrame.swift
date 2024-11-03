@@ -116,7 +116,7 @@ class MarkEachFrame: UIView{
     
     let imageSize = CGSize(width: image.width, height: image.height)
     
-    MarkEachFrame.setMarkers(
+    self.markers = MarkEachFrame.setMarkers(
       resultLandmark: resultLandmark,
       imageSize: imageSize,
       imageContentMode: .scaleAspectFit,

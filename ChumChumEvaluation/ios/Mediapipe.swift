@@ -167,7 +167,6 @@ class Mediapipe: NSObject {
     }
   }
   
-  
   @objc
   static func requiresMainQueueSetup() -> Bool {
       return true
