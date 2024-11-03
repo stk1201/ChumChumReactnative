@@ -24,7 +24,7 @@ const LoadingScreen: React.FC = () => {
                     const results = await Mediapipe.poseEstimation(userVideoPath, originalVideoPath);
                     if (results && resultStocker) {
                         // 合計スコアの計算
-                        const totalScore = results.eachTimeScore.reduce((acc, score) => acc + score, 0) / results.eachTimeScore.length;
+                        const totalScore = results.eachTimeScore.reduce((acc: number, score: number) => acc + score, 0) / results.eachTimeScore.length;
                         // ランクの計算
                         const rank = calculateRank(totalScore);
                         // ベストショットとワーストショットを設定
