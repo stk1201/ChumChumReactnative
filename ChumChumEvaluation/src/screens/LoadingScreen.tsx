@@ -31,7 +31,7 @@ const LoadingScreen: React.FC = () => {
                         const [userImageData, originalImageData] = setBestAndWorst(results);
                         //グラフ作成
                         const graphData = {
-                            labels: results.eachTimeScore.map((_, index) => (index + 1).toString()),
+                            labels: results.eachTimeScore.map((_: number, index: number) => (index + 1).toString()),
                             datasets: [
                                 {
                                     data: results.eachTimeScore,
