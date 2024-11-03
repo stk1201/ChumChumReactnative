@@ -22,7 +22,7 @@ export type RootStackParamList = {
   HistoryScreen: undefined;
   UploadScreen: undefined;
   LoadingScreen: {userVideoPath: string, originalVideoPath: string};
-  Result1Screen: {results: any};
+  Result1Screen: undefined;
   Result2Screen: undefined;
   Result3Screen: undefined;
 }
