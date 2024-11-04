@@ -4,6 +4,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { ResultStocker } from '../context/ResultStocker';
+import Config from 'react-native-config';
 
 const Result1Screen: React.FC = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Result1Screen'>>();
@@ -20,6 +21,8 @@ const Result1Screen: React.FC = () => {
             <Text>{totalScore !== undefined ? Math.floor(totalScore) : 'スコアがありません'}</Text>
             <Text>あなたは</Text>
             <Text>{rank !== undefined ? rank : 'ランクがありません'}</Text>
+
+            <Text>{Config.SAVE_RESULT_API}</Text>
             
             <Button title='NEXT' onPress={() => navigation.navigate('Result2Screen')} />
         </View>
