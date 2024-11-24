@@ -1,5 +1,5 @@
 import React, { useContext } from 'react';
-import { View, Text, Button, Image, StyleSheet } from 'react-native';
+import { View, Button, Image, StyleSheet, Text } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
@@ -14,7 +14,6 @@ const Result2Screen: React.FC = () => {
 
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
-            <Text>結果2画面</Text>
             <Text>ベストショット</Text>
             {userImageData && userImageData.length > 0 && originalImageData && originalImageData.length > 0 && (
                 <View style={styles.imageRow}>

@@ -68,7 +68,7 @@ const LoadingScreen: React.FC = () => {
     const calculateRank = (score: number): string => {
         if (score > 80) return 'god';
         if (score > 60) return 'center';
-        if (score > 40) return 'back';
+        if (score > 40) return 'backdancer';
         if (score > 20) return 'practice';
         return 'normal';
     };
