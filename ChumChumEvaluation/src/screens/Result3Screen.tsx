@@ -5,6 +5,7 @@ import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
 import { ResultStocker } from '../context/ResultStocker';
+import {UserStocker} from '../context/UserStocker';
 import { LineChart } from 'react-native-chart-kit';
 import Config from 'react-native-config';
 import ViewShot, { captureRef } from 'react-native-view-shot';
@@ -16,11 +17,12 @@ const Result3Screen: React.FC = () => {
 
     const resultStocker = useContext(ResultStocker);
     const graphData = resultStocker?.result?.graphData;
+    const userStocker = useContext(UserStocker);
+    const userId = userStocker?.user?.userId;
 
     const [musicName, setMusicName] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const [resultId, setResultId] = useState<string>('');
     const viewGraphShotRef = useRef(null);
 
     const saveResult = async () => {
@@ -52,9 +54,6 @@ const Result3Screen: React.FC = () => {
 
                 if (response.status === 200 && response.data) {
                     console.log("API Response: ", response.data);
-                    const body = JSON.parse(response.data.body);
-                    const resultIdInt = body.ResultID;
-                    setResultId(resultIdInt.toString());
     
                     console.error('Dynamoへの保存に成功しました。');
                     if (resultStocker?.result?.userImageData[0]) {
@@ -84,17 +83,17 @@ const Result3Screen: React.FC = () => {
 
     const getJson = (): string => {
         return JSON.stringify({
-            UserID: "0",//ユーザーIDは仮で0
+            UserID: userId,
             MusicName: musicName,
-            UserBestShot: "userbestshot_url",
-            OriginalBestShot: "originalbestshot_url",
-            UserWorstShot: "userworstshot_url",
-            OriginalWorstShot: "originalworstshot",
+            UserBestShot: 'userbestshot_url',
+            OriginalBestShot: 'originalbestshot_url',
+            UserWorstShot: 'userworstshot_url',
+            OriginalWorstShot: 'originalworstshot',
             Score: resultStocker?.result?.totalScore !== undefined ? Math.floor(resultStocker.result.totalScore) : 0,
             Rank: resultStocker?.result?.rank,
-            Graph: "graph_url"
+            Graph: 'graph_url',
         });
-    }
+    };
 
     const saveImage = async (flag: number, image: Buffer) => {
         const BUCKET_NAME = Config.S3_BUCKET_NAME as string;
@@ -103,19 +102,19 @@ const Result3Screen: React.FC = () => {
 
         switch (flag) {
             case 0:
-                fileName = `${resultId}_user_best_shot.png`;
+                fileName = `${userId}_user_best_shot.png`;
                 break;
             case 1:
-                fileName = `${resultId}_original_best_shot.png`;
+                fileName = `${userId}_original_best_shot.png`;
                 break;
             case 2:
-                fileName = `${resultId}_user_worst_shot.png`;
+                fileName = `${userId}_user_worst_shot.png`;
                 break;
             case 3:
-                fileName = `${resultId}_original_worst_shot.png`;
+                fileName = `${userId}_original_worst_shot.png`;
                 break;
             case 4:
-                fileName = `${resultId}_graph.png`;
+                fileName = `${userId}_graph.png`;
                 break;
             default:
                 throw new Error("Invalid flag value: " + flag);

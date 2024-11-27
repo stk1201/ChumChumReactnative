@@ -14,6 +14,7 @@ import Result2Screen from './src/screens/Result2Screen';
 import Result3Screen from './src/screens/Result3Screen';
 
 import { ResultProvider } from './src/context/ResultStocker';
+import { UserProvider } from './src/context/UserStocker';
 
 export type RootStackParamList = {
   LoginScreen: undefined;
@@ -32,6 +33,7 @@ const Stack = createNativeStackNavigator();
 export default class HelloWorldApp extends Component {
   render() {
     return (
+      <UserProvider>
       <ResultProvider>
         <NavigationContainer>
           <Stack.Navigator initialRouteName="LoginScreen">
@@ -47,6 +49,7 @@ export default class HelloWorldApp extends Component {
           </Stack.Navigator>
         </NavigationContainer>
       </ResultProvider>
+      </UserProvider>
     );
   }
 }
