@@ -1,6 +1,5 @@
-import React, {useContext, useState, useRef} from 'react';
-import { View, Text, Button, StyleSheet, Dimensions, TextInput} from 'react-native';
-
+import React, { useContext, useRef, useState } from 'react';
+import { View, Text, Button, Dimensions, StyleSheet, TextInput } from 'react-native';
 import { useNavigation } from '@react-navigation/native';
 import { StackNavigationProp } from '@react-navigation/stack';
 import { RootStackParamList } from '../../App';
@@ -10,7 +9,10 @@ import { LineChart } from 'react-native-chart-kit';
 import Config from 'react-native-config';
 import ViewShot, { captureRef } from 'react-native-view-shot';
 import axios from 'axios';
-import * as AWS from 'aws-sdk';
+import { S3, CognitoIdentityCredentials } from 'aws-sdk';
+import { Buffer } from 'buffer';
+import RNFS from 'react-native-fs';
+import ImageResizer from 'react-native-image-resizer';
 
 const Result3Screen: React.FC = () => {
     const navigation = useNavigation<StackNavigationProp<RootStackParamList, 'Result3Screen'>>();
@@ -23,58 +25,70 @@ const Result3Screen: React.FC = () => {
     const [musicName, setMusicName] = useState<string>('');
     const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-    const viewGraphShotRef = useRef(null);
+    const viewShotRef = useRef(null);
 
     const saveResult = async () => {
-        if(musicName){
-            let graphBuffer: any;
-
-            try{
-                const graphUri = await captureRef( viewGraphShotRef, {
+        if (musicName) {
+            try {
+                const graphUri = await captureRef(viewShotRef, {
                     format: 'png',
                     quality: 1.0,
-                })
-                const graphResponse = await fetch(graphUri);
-                const graphBlob = await graphResponse.blob();
-                const graphArrayBuffer = await graphBlob.arrayBuffer();
-                graphBuffer = Buffer.from(graphArrayBuffer);
+                });
+                // グラフ画像を一時ファイルとして保存
+                const filePath = `${RNFS.DocumentDirectoryPath}/graph.png`;
+                //既存ファイルの削除
+                await RNFS.unlink(filePath).catch(() => {});
+                console.log('一時ファイルを削除しました:', filePath);
+                //ファイルの保存
+                await RNFS.copyFile(graphUri, filePath);
+
+                // ファイルをBufferに変換
+                const graphBase64 = await RNFS.readFile(filePath, 'base64');
+                if (!graphBase64) {
+                    throw new Error('Failed to read the graph file as base64.');
+                }
+                const graphBuffer = Buffer.from(graphBase64, 'base64');
+
+                const url = Config.SAVE_RESULT_API || '';
+                const resultJson = getJson();
+
+                try {
+                    const response = await axios.post(url, resultJson, {
+                        headers: {
+                            'Content-Type': 'application/json',
+                        },
+                    });
+
+                    if (response.status === 200 && response.data) {
+                        console.log('API Response: ', response.data);
+                        console.log('結果の保存に成功しました。');
+                        if (resultStocker?.result?.userImageData[0]) {
+                            saveImage(0, base64ToBuffer(resultStocker.result.userImageData[0]));
+                        }
+                        if (resultStocker?.result?.originalImageData[0]) {
+                            saveImage(1, base64ToBuffer(resultStocker.result.originalImageData[0]));
+                        }
+                        if (resultStocker?.result?.userImageData[1]) {
+                            saveImage(2, base64ToBuffer(resultStocker.result.userImageData[1]));
+                        }
+                        if (resultStocker?.result?.originalImageData[1]) {
+                            saveImage(3, base64ToBuffer(resultStocker.result.originalImageData[1]));
+                        }
+                        saveImage(4, graphBuffer);
+
+                        // 一時ファイルの削除
+                        await RNFS.unlink(filePath);
+                        console.log('一時ファイルを削除しました:', filePath);
+
+                    } else {
+                        console.log('Dynamoへの保存に失敗しました。');
+                    }
+
+                } catch (error) {
+                    console.error('保存に失敗しました。', error);
+                }
             } catch (error) {
                 console.error('グラフのキャプチャに失敗しました', error);
-            }
-
-            const url = Config.SAVE_RESULT_API || '';
-            const resultJson = getJson();
-
-            try{
-                const response = await axios.post(url, resultJson, {
-                    headers: {
-                        'Content-Type': 'application/json',
-                    },
-                });
-
-                if (response.status === 200 && response.data) {
-                    console.log("API Response: ", response.data);
-    
-                    console.error('Dynamoへの保存に成功しました。');
-                    if (resultStocker?.result?.userImageData[0]) {
-                        saveImage(0, base64ToBuffer(resultStocker.result.userImageData[0]));
-                    }
-                    if (resultStocker?.result?.originalImageData[0]) {
-                        saveImage(1, base64ToBuffer(resultStocker.result.originalImageData[0]));
-                    }
-                    if (resultStocker?.result?.userImageData[1]) {
-                        saveImage(2, base64ToBuffer(resultStocker.result.userImageData[1]));
-                    }
-                    if (resultStocker?.result?.originalImageData[0]) {
-                        saveImage(3, base64ToBuffer(resultStocker.result.originalImageData[0]));
-                    }
-                    saveImage(4, graphBuffer);
-                } else {
-                    console.error('Dynamoへの保存に失敗しました。');
-                }
-
-            } catch (error) {
-                console.error('保存に失敗しました。', error);
             }
         }else{
             setErrorMessage('曲名を入力してください。');
@@ -117,30 +131,68 @@ const Result3Screen: React.FC = () => {
                 fileName = `${userId}_graph.png`;
                 break;
             default:
-                throw new Error("Invalid flag value: " + flag);
+                throw new Error('Invalid flag value: ' + flag);
         }
 
-        // Configure AWS credentials
-        AWS.config.update({
-            region: 'ap-northeast-1',
-            credentials: new AWS.CognitoIdentityCredentials({
-                IdentityPoolId: IDENTITY_POOL_ID,
-            }),
-        });
-
-        const s3 = new AWS.S3();
-
         try {
-            const params = {
+            // Bufferから一時的な画像ファイルを作成
+            const tempFilePath = `${RNFS.DocumentDirectoryPath}/${fileName}`;
+            await RNFS.writeFile(tempFilePath, image.toString('base64'), 'base64');
+
+            // 画像を圧縮
+            const compressedImage = await ImageResizer.createResizedImage(
+                tempFilePath, // 入力画像のパス
+                1024, // 最大幅
+                1024, // 最大高さ
+                'PNG', // 出力形式
+                80, // 圧縮品質
+            );
+            console.log('Compressed Image:', compressedImage);
+
+            // 圧縮後の画像をBufferとして読み込む
+            const compressedImageBuffer = await RNFS.readFile(compressedImage.uri, 'base64');
+            const imageBuffer = Buffer.from(compressedImageBuffer, 'base64');
+            console.log('Compressed Buffer:', imageBuffer);
+
+
+            // Cognitoで認証情報を取得
+            const credentials = new CognitoIdentityCredentials({
+                IdentityPoolId: IDENTITY_POOL_ID,
+            });
+
+            const s3Client = new S3({
+                credentials: new CognitoIdentityCredentials({
+                    IdentityPoolId: IDENTITY_POOL_ID,
+                }),
+                region: 'ap-northeast-1', // リージョンを明示的に指定
+            });
+            await credentials.getPromise(); // 認証情報を取得
+
+            // 認証情報を出力
+            console.log('Identity ID:', credentials.identityId);
+            console.log('Access Key ID:', credentials.accessKeyId);
+            console.log('Secret Access Key:', credentials.secretAccessKey);
+            console.log('Session Token:', credentials.sessionToken);
+
+            // S3にアップロード
+            const uploadParams = {
                 Bucket: BUCKET_NAME,
                 Key: fileName,
-                Body: image,
-                ContentType: 'image/png'
+                Body: imageBuffer,
             };
+            await s3Client.putObject(uploadParams).promise();
 
-            const data = await s3.upload(params).promise();
-            console.log(data);
-            console.error('S3への保存に成功しました。');
+
+            // アップロードしたファイルのURLを取得
+            const uploadedUrl = s3Client.getSignedUrl('getObject', {
+                Bucket: BUCKET_NAME,
+                Key: fileName,
+            });
+
+            console.log('S3へのアップロード成功:', uploadedUrl);
+            // 一時ファイルの削除
+            await RNFS.unlink(tempFilePath);
+            console.log('一時ファイルを削除しました:', tempFilePath);
         } catch (error) {
             console.error('S3への保存に失敗しました。');
         }
@@ -149,8 +201,8 @@ const Result3Screen: React.FC = () => {
     return (
         <View style={{ flex: 1, justifyContent: 'center', alignItems: 'center' }}>
             <Text>結果3画面</Text>
-            {/* グラフの描画 */}
-            <ViewShot ref={viewGraphShotRef} options={{ format: 'png', quality: 1.0 }}>
+
+            <ViewShot ref={viewShotRef} options={{ format: 'png', quality: 1.0 }}>
                 {graphData && (
                     <LineChart
                         data={graphData}
@@ -187,11 +239,10 @@ const Result3Screen: React.FC = () => {
                 value={musicName}
                 onChangeText={setMusicName}
             />
-            <View style={styles.row}>
-                <Button title='保存' onPress={saveResult} />
-                <Button title='削除' onPress={() => navigation.navigate('HomeScreen')} />
-            </View>
-            
+
+            <Button title="保存" onPress={saveResult} />
+            <Button title="削除" onPress={() => navigation.navigate('HomeScreen')} />
+
             {/* エラーメッセージ */}
             {errorMessage && (
                 <Text style={{ color: 'red', marginTop: 20 }}>{errorMessage}</Text>
@@ -221,7 +272,8 @@ const styles = StyleSheet.create({
 });
 
 function base64ToBuffer(base64: string): Buffer {
-    return Buffer.from(base64.split(',')[1], 'base64');
+    const base64String = base64.includes(',') ? base64.split(',')[1] : base64;
+    return Buffer.from(base64String, 'base64');
 }
 
 export default Result3Screen;

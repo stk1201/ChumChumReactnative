@@ -59,6 +59,11 @@
 			<key>isShown</key>
 			<false/>
 		</dict>
+		<key>RNFS.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
 		<key>RNSVG-RNSVGFilters.xcscheme</key>
 		<dict>
 			<key>isShown</key>
@@ -385,6 +390,11 @@
 			<false/>
 		</dict>
 		<key>react-native-image-picker.xcscheme</key>
+		<dict>
+			<key>isShown</key>
+			<false/>
+		</dict>
+		<key>react-native-image-resizer.xcscheme</key>
 		<dict>
 			<key>isShown</key>
 			<false/>
